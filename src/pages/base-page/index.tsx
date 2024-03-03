@@ -5,7 +5,7 @@ const BasePage = () => {
   return (
     <div className="wrapper-page">
       <header>
-        <h1>Приложение для складского учета </h1>
+        <h1>Приложение для складского учета</h1>
       </header>
       <Outlet />
     </div>
