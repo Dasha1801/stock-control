@@ -1,8 +1,8 @@
 import { combineReducers } from '@reduxjs/toolkit'
-import { catalogsReducer } from './catalog-reducer/catalogsSlice'
+import { dataReducer } from './data-reducer/dataSlice'
 
 export const rootReducer = combineReducers({
-  catalogs: catalogsReducer
+  data: dataReducer
 })
 
 export type RootState = ReturnType<typeof rootReducer>

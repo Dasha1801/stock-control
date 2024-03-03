@@ -1,7 +1,8 @@
 import React from 'react'
 import { Navigate, RouteObject, useRoutes } from 'react-router-dom'
 import BasePage from '../pages/base-page'
-const allPaths = {
+import Main from '../pages/main'
+export const allPaths = {
   root: {
     path: '/',
     name: 'Главная',
@@ -22,7 +23,7 @@ const routes: RouteObject = {
   children: [
     {
       index: true,
-      element: <div></div>
+      element: <Main />
     },
     {
       path: `${allPaths.catalog.path}/${allPaths.catalogId.path}`,
