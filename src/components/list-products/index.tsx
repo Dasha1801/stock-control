@@ -1,5 +1,6 @@
 import { Table } from "antd"
 import { useAppSelector } from "../../redux/store"
+import { useMemo } from "react"
 
 
 const columns = [
@@ -42,10 +43,31 @@ const columns = [
 
 
 const ListCatalogs = () => {
-  const { nomenclatures } = useAppSelector((store) => store.data)
+  const { data: { nomenclatures, catalogs }, filter: { activeCatalog } } = useAppSelector((store) => store)
+
+  const nomenclaturesForRender = useMemo(() => {
+    if (!activeCatalog) {
+      return nomenclatures
+    }
+
+    const allCatalogs = catalogs.filter((el) => {
+      if (el.id === activeCatalog || el.root === activeCatalog) {
+        return el
+      }
+    }).map((el) => el.id)
+
+    console.log(allCatalogs)
+
+    return nomenclatures.filter((el) => allCatalogs.includes(el.catalog))
+
+
+  }, [activeCatalog, catalogs, nomenclatures])
+
+  console.log(nomenclaturesForRender)
+
   return (
     <div className="wrapper-table">
-      <Table dataSource={nomenclatures} columns={columns} />
+      <Table dataSource={nomenclaturesForRender} columns={columns} />
     </div>)
 }
 

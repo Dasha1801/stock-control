@@ -1,11 +1,10 @@
-import { useState } from "react"
-import { useAppSelector } from "../../redux/store"
+import { useAppDispatch, useAppSelector } from "../../redux/store"
 import DropDown from "../select"
+import { selectCatalog } from "../../redux/filter-reducer/filter-slice"
 
 const Actions = () => {
-  const [activeCatalog, setActiveCatalog] = useState('')
-  const { catalogs } = useAppSelector((store) => store.data)
-
+  const { data: { catalogs }, filter: { activeCatalog } } = useAppSelector((store) => store)
+  const dispatch = useAppDispatch()
   const data = catalogs.map((el) => {
     return {
       value: el.id,
@@ -13,11 +12,9 @@ const Actions = () => {
     }
   })
 
-  console.log(activeCatalog)
-
   return (
     <div className="wrapper-actions">
-      <DropDown data={data} onChange={setActiveCatalog}/>
+      <DropDown value={activeCatalog} data={data} onChange={(val) => dispatch(selectCatalog(val))} />
     </div>
   )
 }
