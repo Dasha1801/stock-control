@@ -1,18 +1,12 @@
 import { Select } from 'antd';
+import type { SelectProps } from 'antd';
 
-interface IPropsDropDown {
-  data: { value: string, label: string }[]
-  onChange: (arg: string) => void
-  value: string
-}
-
-const DropDown = ({ data, onChange, value }: IPropsDropDown) => {
+const DropDown = ({ options, onChange, value }: SelectProps) => {
   return (
     <Select
-      defaultValue="Все каталоги"
-      style={{ width: 240, height: 40 }}
+      style={{ width: 220, height: 40 }}
       onChange={onChange}
-      options={data}
+      options={options}
       value={value}
     />
   )
