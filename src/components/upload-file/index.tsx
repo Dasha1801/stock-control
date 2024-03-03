@@ -1,6 +1,6 @@
 import { ChangeEvent } from 'react'
 import './style.scss'
-import { DataJson, uploadData } from '../../redux/data-reducer/dataSlice';
+import { DataJson, uploadData } from '../../redux/data-reducer/data-slice';
 import { useAppDispatch } from '../../redux/store';
 
 

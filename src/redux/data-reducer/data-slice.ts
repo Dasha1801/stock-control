@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 interface Catalog {
-  id: string;
+  key: string;
   name: string;
   root: string;
 }
 
 interface Nomenclature {
-  id: string,
+  key: string,
   catalog: string,
   name: string,
   description: string,
