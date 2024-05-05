@@ -45,7 +45,7 @@ const columns = [
 
 
 const ListCatalogs = () => {
-  const { data: { nomenclatures, catalogs }, filter: { activeCatalog, byPrice } } = useAppSelector((store) => store);
+  const { data: { nomenclatures, catalogs }, filter: { activeCatalog, byPrice, searchCount, searchName } } = useAppSelector((store) => store);
   const [dataForRender, setDataForRender] = useState(nomenclatures);
 
   useEffect(() => {
@@ -60,14 +60,29 @@ const ListCatalogs = () => {
       filteredData = [...filteredData].sort((a, b) => {
         if (byPrice === SortByPrice.expansive) {
           return b.price - a.price;
-        } else { 
+        } else {
           return a.price - b.price;
         }
       });
     }
 
+    if (searchName) {
+      filteredData =
+        filteredData.filter(
+          (el) =>
+            el.name.toLowerCase().indexOf(searchName.toLowerCase()) !== -1
+        )
+    }
+
+    if (searchCount) {
+      filteredData =
+        filteredData.filter(
+          (el) =>
+            el.quantity <= Number(searchCount)
+        )
+    }
     setDataForRender(filteredData);
-  }, [nomenclatures, catalogs, activeCatalog, byPrice]); 
+  }, [nomenclatures, catalogs, activeCatalog, byPrice, searchCount, searchName]);
 
   return (
     <div className="wrapper-table">

@@ -2,7 +2,7 @@ import React from 'react'
 import { Navigate, RouteObject, useRoutes } from 'react-router-dom'
 import BasePage from '../pages/base-page'
 import Main from '../pages/main'
-export const allPaths = {
+const allPaths = {
   root: {
     path: '/',
     name: 'Главная',
