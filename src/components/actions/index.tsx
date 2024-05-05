@@ -1,11 +1,11 @@
-import { useAppDispatch, useAppSelector } from "../../redux/store"
-import DropDown from "../select"
-import { SortByPrice, changeByPrice, selectCatalog, changeSearchName, changeSearchCount, reset } from "../../redux/filter-reducer/filter-slice"
-import { useMemo } from 'react'
-import RadioGroup from "../radio"
-import './style.scss'
-import Search from "antd/es/input/Search"
 import { Button } from "antd"
+import Search from "antd/es/input/Search"
+import { useMemo, useState } from 'react'
+import { SortByPrice, changeByPrice, changeSearchCount, changeSearchName, reset, selectCatalog } from "../../redux/filter-reducer/filter-slice"
+import { useAppDispatch, useAppSelector } from "../../redux/store"
+import RadioGroup from "../radio"
+import DropDown from "../select"
+import './style.scss'
 const dataForRadioGroup = [
   {
     value: SortByPrice.cheap,
@@ -29,15 +29,22 @@ const Actions = () => {
   })
     , [catalogs])
 
+  const [state, setState] = useState({ count: searchCount, name: searchName })
+
   const isDisabled = useMemo(() => !(activeCatalog || byPrice || searchCount || searchName), [activeCatalog, byPrice, searchCount, searchName])
+
+  const resetFilters = () => {
+    setState({ count: '', name: '' })
+    dispatch(reset())
+  }
 
   return (
     <div className="wrapper-actions">
       <DropDown value={activeCatalog} options={[...data, { value: '', label: 'Все каталоги' }]} onChange={(val) => dispatch(selectCatalog(val))} />
-      <Search placeholder="Название или модель" onSearch={(val => dispatch(changeSearchName(val)))} enterButton />
-      <Search placeholder="Введите количество" type="number" onSearch={(val => dispatch(changeSearchCount(val.replace(/[^0-9]/g, ''))))} enterButton />
+      <Search placeholder="Название или модель" value={state.name} onChange={(e) => setState((prev) => ({ ...prev, name: e.target.value }))} onSearch={() => dispatch(changeSearchName(state.name))} enterButton />
+      <Search placeholder="Введите количество" type="number" value={state.count} onChange={(e) => setState((prev) => ({ ...prev, count: e.target.value.replace(/[^0-9]/g, '') }))} onSearch={() => dispatch(changeSearchCount(state.count))} enterButton />
       <RadioGroup options={dataForRadioGroup} value={byPrice} onChange={(val) => dispatch(changeByPrice(val.target.value))} />
-      <Button type="primary" disabled={isDisabled} onClick={() => dispatch(reset())}>Сброс</Button>
+      <Button type="primary" disabled={isDisabled} onClick={resetFilters}>Сброс</Button>
     </div>
   )
 }

@@ -38,7 +38,7 @@ const columns = [
   },
   {
     title: 'Количество',
-    dataIndex: 'price',
+    dataIndex: 'quantity',
     key: 'quantity',
   },
 ]
@@ -78,7 +78,7 @@ const ListCatalogs = () => {
       filteredData =
         filteredData.filter(
           (el) =>
-            el.quantity <= Number(searchCount)
+            el.quantity < Number(searchCount)
         )
     }
     setDataForRender(filteredData);
