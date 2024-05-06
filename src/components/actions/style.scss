@@ -16,6 +16,10 @@
     .ant-input::placeholder {
       color: #2424248a;
     }
+
+    &.count {
+      max-width: 160px;
+    }
   }
 
   .ant-btn {
@@ -23,7 +27,7 @@
 
     &:disabled {
       color: #2424248a;
-      border-color: #2424248a;
+      border-color: #24242440;
     }
   }
 }

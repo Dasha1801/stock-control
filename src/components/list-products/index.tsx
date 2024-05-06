@@ -1,9 +1,11 @@
 
+import { Table } from "antd"
 import { useEffect, useState } from "react"
+import { Nomenclature } from "../../redux/data-reducer/data-slice"
 import { SortByPrice } from "../../redux/filter-reducer/filter-slice"
 import { useAppSelector } from "../../redux/store"
-import { Table } from "antd"
-
+import { ModalNomenclature } from "../modal/ModalNomenclature"
+import './style.scss'
 
 const columns = [
   {
@@ -43,10 +45,23 @@ const columns = [
   },
 ]
 
+// eslint-disable-next-line react-refresh/only-export-components
+export const InitNomenclature = {
+  key: '',
+  catalog: '',
+  name: '',
+  description: '',
+  price: 1,
+  quantity: 1,
+  brand: ''
+}
+
 
 const ListCatalogs = () => {
   const { data: { nomenclatures, catalogs }, filter: { activeCatalog, byPrice, searchCount, searchName } } = useAppSelector((store) => store);
   const [dataForRender, setDataForRender] = useState(nomenclatures);
+  const [nomenclature, setNomenclature] = useState<Nomenclature>(InitNomenclature)
+  const [show, setIsShow] = useState(false)
 
   useEffect(() => {
     let filteredData = nomenclatures;
@@ -84,9 +99,26 @@ const ListCatalogs = () => {
     setDataForRender(filteredData);
   }, [nomenclatures, catalogs, activeCatalog, byPrice, searchCount, searchName]);
 
+  const closeModal = () => {
+    setIsShow(false)
+    setNomenclature(InitNomenclature)
+  }
+
   return (
     <div className="wrapper-table">
-      <Table dataSource={dataForRender} columns={columns} />
+      <Table
+        dataSource={dataForRender}
+        columns={columns}
+        onRow={(record) => {
+          return {
+            onClick: () => {
+              setNomenclature(record);
+              setIsShow(true);
+            },
+          };
+        }}
+      />
+      <ModalNomenclature isModalOpen={show} nomenclature={nomenclature} handleCancel={closeModal} handleOk={closeModal} setNomenclature={setNomenclature} />
     </div>)
 }
 
