@@ -1,10 +1,11 @@
 
-import { Table } from "antd"
+import { Button, Table } from "antd"
 import { useEffect, useState } from "react"
-import { Nomenclature } from "../../redux/data-reducer/data-slice"
+import { Nomenclature, resetData } from "../../redux/data-reducer/data-slice"
 import { SortByPrice } from "../../redux/filter-reducer/filter-slice"
-import { useAppSelector } from "../../redux/store"
+import { useAppDispatch, useAppSelector } from "../../redux/store"
 import { ModalNomenclature } from "../modal/ModalNomenclature"
+import { DownloadOutlined, DeleteOutlined } from '@ant-design/icons';
 import './style.scss'
 
 const columns = [
@@ -63,6 +64,8 @@ const ListCatalogs = () => {
   const [nomenclature, setNomenclature] = useState<Nomenclature>(InitNomenclature)
   const [show, setIsShow] = useState(false)
 
+  const dispatch = useAppDispatch()
+
   useEffect(() => {
     let filteredData = nomenclatures;
 
@@ -104,8 +107,29 @@ const ListCatalogs = () => {
     setNomenclature(InitNomenclature)
   }
 
+  const handleDownload = () => {
+    const dataStr = JSON.stringify({ nomenclatures, catalogs }, null, 2); 
+    const blob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'data.json'; 
+    document.body.appendChild(link); 
+    link.click(); 
+    document.body.removeChild(link); 
+    URL.revokeObjectURL(url); 
+  };
+
   return (
     <div className="wrapper-table">
+      <div className="action">
+        <Button type="primary" onClick={handleDownload} icon={<DownloadOutlined />} style={{ height: 40 }}>
+          Скачать данные
+        </Button>
+        <Button type="default" onClick={() => dispatch(resetData())} icon={<DeleteOutlined />} style={{ height: 40, color: '#fff', backgroundColor: 'red' }}>
+          Удалить данные
+        </Button>
+      </div>
       <Table
         dataSource={dataForRender}
         columns={columns}

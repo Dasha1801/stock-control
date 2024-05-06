@@ -52,8 +52,12 @@ export const dataSlice = createSlice({
         state.nomenclatures.splice(findIdx, 1)
       }
     },
+    resetData: (state) => {
+      state.catalogs = []
+      state.nomenclatures = []
+    },
   },
 })
 
-export const { uploadData, deleteItem, updateItem, addItem, addCatalog } = dataSlice.actions
+export const { uploadData, deleteItem, updateItem, addItem, addCatalog, resetData } = dataSlice.actions
 export const { reducer: dataReducer } = dataSlice

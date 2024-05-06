@@ -26,10 +26,6 @@ const routes: RouteObject = {
       element: <Main />
     },
     {
-      path: `${allPaths.catalog.path}/${allPaths.catalogId.path}`,
-      element: <div></div>
-    },
-    {
       path: '*',
       element: <Navigate to={allPaths.root.path} replace />
     },
