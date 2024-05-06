@@ -58,7 +58,7 @@ export const InitNomenclature = {
 }
 
 
-const ListCatalogs = () => {
+export const ListProducts = () => {
   const { data: { nomenclatures, catalogs }, filter: { activeCatalog, byPrice, searchCount, searchName } } = useAppSelector((store) => store);
   const [dataForRender, setDataForRender] = useState(nomenclatures);
   const [nomenclature, setNomenclature] = useState<Nomenclature>(InitNomenclature)
@@ -145,5 +145,3 @@ const ListCatalogs = () => {
       <ModalNomenclature isModalOpen={show} nomenclature={nomenclature} handleCancel={closeModal} handleOk={closeModal} setNomenclature={setNomenclature} />
     </div>)
 }
-
-export default ListCatalogs

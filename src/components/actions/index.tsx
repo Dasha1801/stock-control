@@ -23,7 +23,7 @@ const dataForRadioGroup = [
 ]
 
 
-const Actions = () => {
+export const Actions = () => {
   const { data: { catalogs }, filter: { activeCatalog, byPrice, searchCount, searchName } } = useAppSelector((store) => store)
   const dispatch = useAppDispatch()
   const data = useMemo(() => catalogs.map((el) => {
@@ -66,5 +66,3 @@ const Actions = () => {
     </div>
   )
 }
-
-export default Actions

@@ -1,6 +1,6 @@
-import Actions from "../../components/actions"
-import ListProducts from "../../components/list-products"
-import UploadFile from "../../components/upload-file"
+import { Actions } from "../../components/actions"
+import { ListProducts } from "../../components/list-products"
+import { UploadFile } from "../../components/upload-file"
 import { useAppSelector } from "../../redux/store"
 import './style.scss'
 
