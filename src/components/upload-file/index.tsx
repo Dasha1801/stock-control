@@ -24,7 +24,7 @@ export const UploadFile = () => {
           if (json['catalogs'] && json['nomenclatures']) {
             dispatch(uploadData(json))
           } else {
-           return messageApi.open({
+            return messageApi.open({
               type: 'error',
               content: 'Вы загружаете некорректные данные!',
             });
