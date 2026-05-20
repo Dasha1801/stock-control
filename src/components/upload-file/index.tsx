@@ -2,10 +2,12 @@ import { ChangeEvent } from 'react'
 import './style.scss'
 import { DataJson, uploadData } from '../../redux/data-reducer/data-slice';
 import { useAppDispatch } from '../../redux/store';
+import { message } from 'antd';
 
 
 export const UploadFile = () => {
   const dispatch = useAppDispatch()
+  const [messageApi, contextHolder] = message.useMessage();
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault()
@@ -19,8 +21,14 @@ export const UploadFile = () => {
         const text = e.target?.result as string;
         try {
           const json = JSON.parse(text) as DataJson;
-          dispatch(uploadData(json))
-
+          if (json['catalogs'] && json['nomenclatures']) {
+            dispatch(uploadData(json))
+          } else {
+            return messageApi.open({
+              type: 'error',
+              content: 'Вы загружаете некорректные данные!',
+            });
+          }
         } catch (error) {
           console.error("Error parsing JSON:", error);
         }
@@ -52,8 +60,7 @@ export const UploadFile = () => {
           Можно загрузить лишь один файл с расширением .json
         </div>
       </div>
+      {contextHolder}
     </label>
   )
 }
-
-export default UploadFile
